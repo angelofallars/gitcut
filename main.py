@@ -11,7 +11,7 @@ def interpret_command(args: list[str]) -> str:
     shell_command = ""
 
     # Check the first command
-    match args[0]:
+    match args[0].split("/")[-1]:
         case "gm":
             git_commit_args += ["git commit"]
         case "gma":
