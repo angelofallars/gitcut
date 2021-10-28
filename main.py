@@ -1,3 +1,4 @@
+#!/bin/python3
 from sys import argv as sys_args
 from os import system as exec_command
 
@@ -56,7 +57,8 @@ def interpret_command(args: list[str]) -> str:
 
 
 def main() -> int:
-    usage = """usage: (gm | gma) (commit message) (,,) (remote) (remote branch)"""
+    usage = "usage: (gm | gma) (commit message) (,,) (remote) (remote branch)"
+
     # Make this program callable if invoked directly with `python main.py`
     if sys_args[0] == "main.py":
         sys_args.remove("main.py")
