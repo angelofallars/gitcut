@@ -21,6 +21,8 @@ def interpret_command(args: list[str]) -> str:
         case "gmap":
             git_commit_args += ["git commit -a"]
             git_push_args += ["git push"]
+        case _:
+            return f'echo "undefined command {args[0]}"'
 
     # Process the commit message and git push arguments
     if len(args) >= 2:

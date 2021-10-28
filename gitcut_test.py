@@ -87,6 +87,11 @@ class TestGitCommands(unittest.TestCase):
         after = 'git commit -m "Update the mainframe ,,"'
         self.check_validity(before, after)
 
+    def test_invalid_command(self):
+        before = "gmessi got stuff"
+        after = 'echo "undefined command gmessi"'
+        self.check_validity(before, after)
+
 
 if __name__ == "__main__":
     unittest.main()
