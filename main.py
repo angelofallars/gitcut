@@ -38,8 +38,12 @@ def interpret_command(args: list[str]) -> str:
             for i in range(commit_message_start, commit_message_end):
                 message_word = args[i]
 
+                # Capitalize the first word
                 if i == commit_message_start:
                     message_word = message_word.capitalize()
+
+                # Handle double quotes " in git commit message
+                message_word = message_word.replace('"', '\\"')
 
                 git_message_words += [message_word]
 

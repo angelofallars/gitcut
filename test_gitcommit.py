@@ -93,6 +93,11 @@ git push origin main'
         after = 'echo "undefined command gmessi"'
         self.check_validity(before, after)
 
+    def test_quotes_edge_case(self):
+        before = 'gm remove the "prize_package" module'
+        after = 'git commit -m "Remove the \\"prize_package\\" module"'
+        self.check_validity(before, after)
+
 
 if __name__ == "__main__":
     unittest.main()
