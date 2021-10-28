@@ -22,24 +22,9 @@ class TestGitCommands(unittest.TestCase):
         after = "git commit -a"
         self.check_validity(before, after)
 
-    def test_gmp_blank(self):
-        before = "gmp"
-        after = "git commit && git push"
-        self.check_validity(before, after)
-
-    def test_gmap_blank(self):
-        before = "gmap"
-        after = "git commit -a && git push"
-        self.check_validity(before, after)
-
     def test_gm_message(self):
         before = "gm add new features"
         after = 'git commit -m "Add new features"'
-        self.check_validity(before, after)
-
-    def test_gm_one_message(self):
-        before = "gm upskill"
-        after = 'git commit -m "Upskill"'
         self.check_validity(before, after)
 
     def test_gma_message(self):
@@ -47,44 +32,60 @@ class TestGitCommands(unittest.TestCase):
         after = 'git commit -a -m "Add stuff"'
         self.check_validity(before, after)
 
+    def test_gm_one_message(self):
+        before = "gm upskill"
+        after = 'git commit -m "Upskill"'
+        self.check_validity(before, after)
+
     def test_gma_one_message(self):
         before = "gma download"
         after = 'git commit -a -m "Download"'
         self.check_validity(before, after)
 
-    def test_gmp_message(self):
-        before = "gmp change some things"
-        after = 'git commit -m "Change some things" && git push'
-        self.check_validity(before, after)
-
-    def test_gmap_message(self):
-        before = "gmap update the variables"
-        after = 'git commit -a -m "Update the variables" && git push'
-        self.check_validity(before, after)
-
-    def test_gmp_branch_blank(self):
-        before = "gmp ,, origin main"
-        after = "git commit && git push origin main"
-        self.check_validity(before, after)
-
-    def test_gmap_branch_blank(self):
-        before = "gmap ,, origin main"
-        after = "git commit -a && git push origin main"
-        self.check_validity(before, after)
-
-    def test_gmp_branch_message(self):
-        before = "gmp get some stuff going ,, origin main"
-        after = 'git commit -m "Get some stuff going" && git push origin main'
-        self.check_validity(before, after)
-
-    def test_gmap_branch_message(self):
-        before = "gmap get some stuff going ,, origin main"
-        after = 'git commit -a -m "Get some stuff going" && git push origin main'
-        self.check_validity(before, after)
-
-    def test_gm_with_two_commas(self):
+    def test_gm_gitpush(self):
         before = "gm update the mainframe ,,"
-        after = 'git commit -m "Update the mainframe ,,"'
+        after = 'git commit -m "Update the mainframe" && git push'
+        self.check_validity(before, after)
+
+    def test_gma_gitpush(self):
+        before = "gma update the mainframe ,,"
+        after = 'git commit -a -m "Update the mainframe" && git push'
+        self.check_validity(before, after)
+
+    def test_gm_gitpush_args(self):
+        before = "gm remove old code ,, origin dev"
+        after = 'git commit -m "Remove old code" && git push origin dev'
+        self.check_validity(before, after)
+
+    def test_gma_gitpush_args(self):
+        before = "gma remove old code ,, origin dev"
+        after = 'git commit -a -m "Remove old code" && git push origin dev'
+        self.check_validity(before, after)
+
+    def test_gma_gitpush_force(self):
+        before = "gma force rebase time ,, -f"
+        after = 'git commit -a -m "Force rebase time" && git push -f'
+        self.check_validity(before, after)
+
+    def test_gm_gitpush_normal(self):
+        before = "gm add the index.js file ,,"
+        after = 'git commit -m "Add the index.js file" && git push'
+        self.check_validity(before, after)
+
+    def test_gma_gitpush_normal2(self):
+        before = "gma update stuff for release 2 ,, origin main"
+        after = 'git commit -a -m "Update stuff for release 2" && \
+git push origin main'
+        self.check_validity(before, after)
+
+    def test_gm_blank_gitpush(self):
+        before = "gm ,,"
+        after = "git commit && git push"
+        self.check_validity(before, after)
+
+    def test_gma_blank_gitpush(self):
+        before = "gma ,,"
+        after = "git commit -a && git push"
         self.check_validity(before, after)
 
     def test_invalid_command(self):

@@ -15,12 +15,6 @@ def interpret_command(args: list[str]) -> str:
             git_commit_args += ["git commit"]
         case "gma":
             git_commit_args += ["git commit -a"]
-        case "gmp":
-            git_commit_args += ["git commit"]
-            git_push_args += ["git push"]
-        case "gmap":
-            git_commit_args += ["git commit -a"]
-            git_push_args += ["git push"]
         case _:
             return f'echo "undefined command {args[0]}"'
 
@@ -30,8 +24,10 @@ def interpret_command(args: list[str]) -> str:
         commit_message_end = len(args)
 
         # Check for ,, (the git push indicator)
-        if ",," in args and args[0] in ["gmp", "gmap"]:
+        if ",," in args:
             commit_message_end = args.index(",,")
+            git_push_args += ["git push"]
+            # Add the git push arguments (ex: origin main, -f)
             git_push_args += [i for i in args[commit_message_end + 1:]]
 
         # Parse the git commit message
@@ -60,6 +56,15 @@ def interpret_command(args: list[str]) -> str:
 
 
 def main() -> int:
+    usage = """usage: (gm | gma) (commit message) (,,) (remote) (remote branch)"""
+    # Make this program callable if invoked directly with `python main.py`
+    if sys_args[0] == "main.py":
+        sys_args.remove("main.py")
+
+    if sys_args == []:
+        print(usage)
+        return 1
+
     exec_command(interpret_command(sys_args))
     return 0
 
