@@ -37,9 +37,19 @@ class TestGitCommands(unittest.TestCase):
         after = 'git commit -m "Add new features"'
         self.check_validity(before, after)
 
+    def test_gm_one_message(self):
+        before = "gm upskill"
+        after = 'git commit -m "Upskill"'
+        self.check_validity(before, after)
+
     def test_gma_message(self):
         before = "gma add stuff"
         after = 'git commit -a -m "Add stuff"'
+        self.check_validity(before, after)
+
+    def test_gma_one_message(self):
+        before = "gma download"
+        after = 'git commit -a -m "Download"'
         self.check_validity(before, after)
 
     def test_gmp_message(self):
@@ -55,6 +65,21 @@ class TestGitCommands(unittest.TestCase):
     def test_gmp_branch_blank(self):
         before = "gmp ,, origin main"
         after = "git commit && git push origin main"
+        self.check_validity(before, after)
+
+    def test_gmap_branch_blank(self):
+        before = "gmap ,, origin main"
+        after = "git commit -a && git push origin main"
+        self.check_validity(before, after)
+
+    def test_gmp_branch_message(self):
+        before = "gmp get some stuff going ,, origin main"
+        after = 'git commit -m "Get some stuff going" && git push origin main'
+        self.check_validity(before, after)
+
+    def test_gmap_branch_message(self):
+        before = "gmap get some stuff going ,, origin main"
+        after = 'git commit -a -m "Get some stuff going" && git push origin main'
         self.check_validity(before, after)
 
 

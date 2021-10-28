@@ -4,6 +4,8 @@ from os import system as exec_command
 
 def interpret_command(args: list[str]) -> str:
     git_commit_args = []
+    git_message_words = []
+    git_message_in_quotes = ""
     git_push_args = []
     shell_command = ""
 
@@ -20,18 +22,32 @@ def interpret_command(args: list[str]) -> str:
             git_push_args += ["git push"]
 
     if len(args) >= 2:
+        commit_message_start = 1
+        commit_message_end = len(args)
+
+        # Check for ,, (the git push indicator)
+        if ",," in args:
+            commit_message_end = args.index(",,")
+            git_push_args += [i for i in args[commit_message_end + 1:]]
+
         # Parse the git commit message
-        git_commit_args += ["-m"]
-        for i in range(1, len(args)):
-            message_word = args[i]
-            if i == 1:
-                git_commit_args += [f'"{message_word.capitalize()}']
-            elif i == len(args) - 1:
-                git_commit_args += [f'{message_word}"']
-            else:
-                git_commit_args += [message_word]
+        if (commit_message_end > commit_message_start):
+            git_commit_args += ["-m"]
+
+            for i in range(commit_message_start, commit_message_end):
+                message_word = args[i]
+
+                if i == commit_message_start:
+                    message_word = message_word.capitalize()
+
+                git_message_words += [message_word]
 
     shell_command += " ".join(git_commit_args)
+
+    # Put the git message in the shell command if it exists
+    if git_message_words:
+        git_message_in_quotes = f'"{" ".join(git_message_words)}"'
+        shell_command = f"{shell_command} {git_message_in_quotes}"
 
     if git_push_args:
         shell_command += " && "
