@@ -82,6 +82,11 @@ class TestGitCommands(unittest.TestCase):
         after = 'git commit -a -m "Get some stuff going" && git push origin main'
         self.check_validity(before, after)
 
+    def test_gm_with_two_commas(self):
+        before = "gm update the mainframe ,,"
+        after = 'git commit -m "Update the mainframe ,,"'
+        self.check_validity(before, after)
+
 
 if __name__ == "__main__":
     unittest.main()

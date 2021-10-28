@@ -9,6 +9,7 @@ def interpret_command(args: list[str]) -> str:
     git_push_args = []
     shell_command = ""
 
+    # Check the first command
     match args[0]:
         case "gm":
             git_commit_args += ["git commit"]
@@ -21,12 +22,13 @@ def interpret_command(args: list[str]) -> str:
             git_commit_args += ["git commit -a"]
             git_push_args += ["git push"]
 
+    # Process the commit message and git push arguments
     if len(args) >= 2:
         commit_message_start = 1
         commit_message_end = len(args)
 
         # Check for ,, (the git push indicator)
-        if ",," in args:
+        if ",," in args and args[0] in ["gmp", "gmap"]:
             commit_message_end = args.index(",,")
             git_push_args += [i for i in args[commit_message_end + 1:]]
 
@@ -44,7 +46,6 @@ def interpret_command(args: list[str]) -> str:
 
     shell_command += " ".join(git_commit_args)
 
-    # Put the git message in the shell command if it exists
     if git_message_words:
         git_message_in_quotes = f'"{" ".join(git_message_words)}"'
         shell_command = f"{shell_command} {git_message_in_quotes}"
